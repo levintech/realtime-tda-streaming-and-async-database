@@ -9,8 +9,8 @@ import json
 import asyncio
 import pandas as pd
 from datetime import datetime
-from tda import utils
 
+from tda import utils
 from tda.auth import easy_client
 from tda.client import Client
 from tda.streaming import StreamClient
@@ -58,7 +58,6 @@ class AnalysisSystem(threading.Thread):
     minute_data = None
     db_helper = None
     result_file = None
-    runner_log_file = None
     kill_async_task = False
     second_count = None
     runner_check_list = None
@@ -75,7 +74,6 @@ class AnalysisSystem(threading.Thread):
         self.minute_data = OneMinuteData()
         self.db_helper = DatabaseHelper(self)
         self.current_time = datetime.now(pytz.timezone('US/Eastern'))
-        self.runner_log_file = open("runner_log.txt", 'w')
 
         client = easy_client(
             api_key=gl_content.TDA_CONSUMER_KEY,
@@ -257,21 +255,6 @@ class AnalysisSystem(threading.Thread):
         
         while True:
             await self.stream_client.handle_message()
-            # try:
-            #     await self.stream_client.handle_message()
-            # except Exception as e:
-            #     print('*****************************************************')
-            #     print(e)
-            #     print('*****************************************************')
-
-            #     await self.stream_client.login()
-            #     await self.stream_client.quality_of_service(StreamClient.QOSLevel.MODERATE)
-
-            #     self.stream_client.add_timesale_equity_handler(
-            #             lambda msg: self.parse_stream(msg))
-
-            #     # await self.stream_client.timesale_equity_subs(['DTRC'])
-            #     await self.stream_client.timesale_equity_subs(self.pd_symbols['Symbol'])
                 
     def end_of_day(self):
         print("End of day")
@@ -286,9 +269,6 @@ class AnalysisSystem(threading.Thread):
         # generate the 'ticker_average_by_minute'
         self.db_helper.generate_ticker_average_by_minute()
         print("Update ticker_average_by_minute successfully")
-
-        # close the runner log file
-        self.runner_log_file.close()
 
         # exit the application
         sys.exit()
