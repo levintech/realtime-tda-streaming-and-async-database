@@ -62,6 +62,7 @@ class AnalysisSystem(threading.Thread):
     second_count = None
     runner_check_list = None
     runner_data = None
+    log_file = None
 
     def __init__(self):
         threading.Thread.__init__(self)
@@ -74,6 +75,7 @@ class AnalysisSystem(threading.Thread):
         self.minute_data = OneMinuteData()
         self.db_helper = DatabaseHelper(self)
         self.current_time = datetime.now(pytz.timezone('US/Eastern'))
+        self.log_file = "log.txt"
 
         client = easy_client(
             api_key=gl_content.TDA_CONSUMER_KEY,
@@ -258,6 +260,9 @@ class AnalysisSystem(threading.Thread):
                 
     def end_of_day(self):
         print("End of day")
+        with open(self.log_file, "a") as logger:
+            logger.write("\n")
+            logger.write("End of day")
 
         # # stop the time clock
         # self.time_clock.keep_running = False
