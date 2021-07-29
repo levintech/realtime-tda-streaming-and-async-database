@@ -33,9 +33,6 @@ def is_market_opened(current_time = None):
     current_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
     end_time = end_time.strftime("%Y-%m-%d %H:%M:%S")
 
-    print(current_time)
-    print(start_time)
-
     if current_time > start_time and current_time < end_time:
         return True
     else:
