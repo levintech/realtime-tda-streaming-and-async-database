@@ -313,8 +313,8 @@ class AnalysisSystem(threading.Thread):
 
         print("Market Type : ", gl_content.market_label[self.market_type])
 
-        # # start the receving streaming
-        # asyncio.run(self.read_stream())
+        # start the receving streaming
+        asyncio.run(self.read_stream())
 
 if __name__ == '__main__':
 
