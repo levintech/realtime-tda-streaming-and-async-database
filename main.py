@@ -8,7 +8,6 @@ while True:
     is_running = False
     for process in psutil.process_iter():
         if process.cmdline() == ['python3', 'tda-streaming.py']:
-            print('script is running')
             is_running = True
             time.sleep(1)
             break
