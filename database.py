@@ -126,8 +126,15 @@ class DatabaseHelper():
             self.one_min_table[market_type], stock
         )
 
-        self.cursor.execute(sql)
-        return self.cursor.fetchall()
+        try:
+            self.cursor.execute(sql)
+            result = self.cursor.fetchone()
+        except Exception as e:
+            result = None
+        
+        if result is None:
+            return result
+        return result[0]
 
     def keep_daily_tickers(self):
 
@@ -210,6 +217,8 @@ class DatabaseHelper():
             self.cnx.commit()
         except Exception as e:
             print(e)
+            print('***** save_gapper_info *****')
+            print(stock, last_price, price_day, price_change,price_percent)
 
     def save_one_minute_data(self, current_time, market_type, minute_data):
         
@@ -227,6 +236,7 @@ class DatabaseHelper():
             self.cnx.commit()
         except Exception as e:
             print(e)
+            print('***** save_one_minute_data *****')
             # print("The issue is occurred when saving the minute data to DB")
     
     def generate_ticker_volume_by_day(self, current_time):

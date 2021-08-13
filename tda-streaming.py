@@ -104,9 +104,9 @@ class AnalysisSystem(threading.Thread):
                     sys.stdout.flush()
                     # beepy.beep(sound="ping")
 
-    def check_gapper(self, gapper_date, market_type):
+    def check_gapper(self, gapper_data, market_type):
         
-        for stock in gapper_date.get_result():
+        for stock in gapper_data.get_result():
             
             # check given stock is gapper or not
             gapper, (symbol, last_price, price_change, price_percent) \

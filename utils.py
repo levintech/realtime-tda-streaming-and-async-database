@@ -132,12 +132,11 @@ def is_gapper(stock_info, market_type, db_helper):
 
     # check there is any trade of stock on today
     previous_data = db_helper.get_stock_1min_data(stock_info['symbol'], market_type)    
-    if len(previous_data) > 0:
+    if previous_data is not None:
         return False, (None, None, None, None)
 
     last_price = db_helper.get_last_price(stock_info['symbol'])
     if last_price is None:
-        pass
         price_change = stock_info['open']
         price_percent = price_change * 100
     else:
